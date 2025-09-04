@@ -1,9 +1,9 @@
-public class funcionario{
-     String nome;
-     double salario;
+class funcionario{
+     private String nome;
+     private double salario;
 
-     public double addAumento(double valor){
-          return salario + valor;
+     public void addAumento(double valor){
+          salario += valor;
      }
 
      public double ganhoAnual(){
@@ -11,7 +11,7 @@ public class funcionario{
      }
 
      void exibeDados(){
-          System.out.println("Nome: "+ nome + "\nSalario: R$" + salario);
+          System.out.println("Nome: "+ nome + "\nSalario: R$" + salario + "\nGanho anual: " + ganhoAnual());
      }
 
      public void setNome(String n){
@@ -33,7 +33,7 @@ public class funcionario{
 }
 
 class assistente extends funcionario{
-     int numMatricula;
+     private int numMatricula;
 
      void exibeDados(){
           super.exibeDados(); 
@@ -51,10 +51,10 @@ class assistente extends funcionario{
 }
 
 class tecnico extends assistente{
-     double bonus;
+     private double bonus;
 
      public double ganhoAnual(){
-          return super.ganhoAnual() + bonus;
+          return super.ganhoAnual() + bonus*12;
      }
 
      public void setBonus(double x){
@@ -64,12 +64,40 @@ class tecnico extends assistente{
      public double getBonus(){
           return bonus;
      }
+
+     public void exibeDados(){
+          super.exibeDados();
+          System.out.println("Bonus Salarial: " + bonus);
+     }
 }
 
 class administrativo extends assistente{
-     boolean ;
-     double addNoturno;
+     private String turno;
+     private double addNoturno;
 
-     public double
+     public String getTurno(){
+          return turno;
+     }
+
+     public void setTurno(String t){
+          turno = t;
+     }
+
+     public double getAddNoturno(){
+          return addNoturno;
+     }
+
+     public void setAddNoturno(double add){
+          addNoturno = add;
+     }
+
+     public double ganhoAnual(){
+          return super.ganhoAnual() + addNoturno;
+     }
+
+     public void exibeDados(){
+          super.exibeDados();
+          System.out.println("Turno: " + turno + "\nAdicional Noturno: " + addNoturno);
+     }
 
 }
