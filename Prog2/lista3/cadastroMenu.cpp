@@ -9,6 +9,13 @@ typedef struct
     double saldo; 
 } cadastro;
 
+typedef struct
+{
+    char nome[MAX];
+    
+}lista;
+
+
 
 int main() {
     int menu; 

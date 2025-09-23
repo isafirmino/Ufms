@@ -1,0 +1,115 @@
+STRUCT
+typedef struct{
+    int n;
+    char x[10];
+}teste;
+
+int main(){
+    teste conta[10] --> vetor
+    
+    conta[0].n = 2; --> se for vetor
+    teste.n = 2 --> se for só um
+}
+----------------------------------------------
+
+SIZEOF 
+pega o tamanho em bytes.
+ex: sizeof(int) = 4
+----------------------------------------------
+
+PONTEIROS:
+a = 5
+aptr = &a
+%p de &a vai mostrar endereço = aptr
+%d de a e *aptr vai mostrar 5
+
+ponteiro e vetor
+int v[5], *p 
+p = v
+v[3] = p[3] = *(v+3) = *(p+3)
+
+vetor de strings:
+char *frutas[2] = {"banana", "maça"};
+
+ponteiro em funcao: nao entendi slide 5-30
+
+acesso ponteiro em struct
+teste conta{2, isa}, *p
+p = &conta
+conta.n = *p.n = p->n
+
+---------------------------------------------
+
+ALOCAÇÃO DE MEMORIA
+#include <stdlib.h>
+int *nome_variavel = (int *) malloc(sizeof(int)*n)
+if (nome_variavel == NULL){
+    perror("erro ao alocar memoria)
+    exit(1)
+}
+free(nome_variavel)
+---------------------------------------------
+
+PASSAGEM POR VALOR E POR REFERENCIA
+por valor ele não muda a mesma variavel:
+
+int quadrado(int n){
+    return n = n * n;
+} ele vai retornar n, nao o quadrado dele
+
+por referencia ele muda o a variavel original:
+em C++:
+int quadrado(int &n){
+    n = n * n;
+} retorna n ao quadrado --> na variavel original n precisa colocar o endereço
+
+em C:
+int quadrado(int *nPtr){
+    *nPtr = *nPtr * *nPtr;
+} nesse caso é necessario colocar &n quando chamar a funcao
+----------------------------------------------
+ENUM
+conjunto de constantes inteiras
+-----------------------------------------------
+FGETS
+(destinho, tamanho, da onde)
+(linha, sizeof(linha), arquivo1) --> adiconar !=NULL se for arquivo;
+fprintf()
+----------------------------------------------
+COPIANDO STRING
+nao entendi slide 5-25
+-------------------------------------------------
+ARQUIVOS
+FILE *arquivo
+arquivo =fopen("nome_arquivo", "modo_abertura")
+if (arquivo == NULL){
+    perror("")
+    exit(1)
+
+fclose(arquivo)
+
+
+fprintf(para onde, tipo, de onde)
+fscanf(de onde, tipo, para onde (&))
+
+ler ate o final do arquivo:
+while(1){
+    n = fscanf(f, "%d", &r);
+
+    if (n == EOF){
+        break;
+    }
+}
+}
+---------------------------------------
+ORDENACAO POR INSERCAO
+pior caso = teta(n^2)
+
+ORDENACAO POR INTERCALACAO
+pior caso = teta(nlogn)
+
+
+teta(g(n)) = {f(n) | 0 <= c1.g(n) <= f(n) <= c2.g(n) para todo n > n0}
+
+a = n^2+50n+100 b = n^2
+a é limite assintoticamente superior, inferior ou restrito?
