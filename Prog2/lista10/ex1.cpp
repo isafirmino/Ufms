@@ -8,7 +8,7 @@ struct cel{
 
 typedef struct cel celula;
 
-void insira(int y, celula *p);
+void insira_em_ordem(int y, celula *p);
 void imprima(celula *lst);
 
 int main(){
@@ -22,10 +22,10 @@ int main(){
     lst = &c;
 
     //sequencia de insercoes
-    insira(1, lst);
-    insira(3, lst);
-    insira(5, lst);
-    insira(7, lst);
+    insira_em_ordem(1, lst);
+    insira_em_ordem(3, lst);
+    insira_em_ordem(5, lst);
+    insira_em_ordem(7, lst);
 
     imprima(lst);
 
@@ -34,7 +34,7 @@ int main(){
 }
 
 //inserir uma nova celula em uma lista encadeada
-void insira(int y, celula *p){
+void insira_em_ordem(int y, celula *p){
     celula *nova;
 
     //aloca dinamicamente uma nova celula

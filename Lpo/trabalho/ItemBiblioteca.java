@@ -1,12 +1,11 @@
-package trabalho;
-
-abstract class itemBiblioteca {
+public abstract class ItemBiblioteca {
     private int id;
     private String titulo;
     private int anoPublicacao;
     private boolean statusEmprestimo;
 
-    public itemBiblioteca(int id, String titulo, int anoPublicacao){
+    //construtor da classe pai
+    public ItemBiblioteca(int id, String titulo, int anoPublicacao){
         this.id = id;
         this.titulo = titulo;
         this.anoPublicacao = anoPublicacao;
@@ -18,10 +17,6 @@ abstract class itemBiblioteca {
     public int getAnoPubli() {return this.anoPublicacao;}
     public void setStatus(boolean status) {this.statusEmprestimo = status;}
 
-    //public abstract int calcularMulta(){
+    public abstract double calcularMulta(int diasAtraso);
 
-}
-
-public class Livro extends itemBiblioteca{
-    private String autor;
 }
