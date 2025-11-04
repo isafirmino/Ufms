@@ -14,7 +14,7 @@ struct pergunta
     char alt_correta;
 };
 
-// Adicionado 'bool visiveis[]' para indicar quais alternativas estão visíveis
+
 void exibir_interface(struct pergunta p, int num_pergunta, float premio_acertar, int pulos, int plateia, int universitarios, int cartas, bool visiveis[]);
 bool executar_pulos(int *pulos_restantes);
 void executar_plateia(int *plateia_restantes, char alt_correta);
@@ -102,18 +102,17 @@ int main()
             pselecionada = superdificeis[index_aleatorio];
         }
 
-        bool visiveis[4] = {true, true, true, true}; // Array para controlar alternativas visíveis
+        bool visiveis[4] = {true, true, true, true}; // controlar alternativas visíveis
         bool pergunta_respondida = false;
         while(!pergunta_respondida && jogoativo){
-            // Passa o array 'visiveis' para a função de exibição
             exibir_interface(pselecionada, pergunta_atual, premios[pergunta_atual - 1], ajuda_pular_pergunta, ajuda_plateia, ajuda_universitarios, ajuda_cartas, visiveis);
 
         char opcao;
-        scanf(" %c", &opcao); // Adicionado espaço antes de %c para consumir newlines pendentes
+        scanf(" %c", &opcao);
 
         switch (opcao)
         {
-            case '1': {// Pular
+            case '1': {
                 bool pular = executar_pulos(&ajuda_pular_pergunta);
                 if (pular){
                     //pergunta atual não respondida, pergunta respondida = true força a chamada de outra pergunta do mesmo nivel
@@ -121,39 +120,37 @@ int main()
                 }
                 break;}
 
-            case '2': {// Plateia
+            case '2': {
                 executar_plateia(&ajuda_plateia, pselecionada.alt_correta);
                 //sem pergunta respondida = true para ele repetir a pergunta
                 break; }
-            case '3': {// Universitários
+            case '3': {
                 executar_universitarios(&ajuda_universitarios, pselecionada.alt_correta);
                 break;}
-            case '4': // Cartas
+            case '4': 
                 executar_cartas(&ajuda_cartas, pselecionada.alt_correta, visiveis);
                 break;
-            case '5': // Parar
-                printf("Voce escolheu parar. Voce sai com R$ %.2f\n", premio_total);
+            case '5': 
+                printf("Voce escolheu parar. Vc sai com R$ %.2f\n", premio_total);
                 jogoativo = false;
                 pergunta_respondida = true;
                 break;
 
-            // Respostas
             case 'a':
             case 'b':
             case 'c':
             case 'd':
             {
-                // Verifica se a alternativa escolhida está visível
+
                 int index_escolhido = opcao - 'a';
                 if (!visiveis[index_escolhido]) {
                     printf("Alternativa %c foi excluida e nao pode ser escolhida. Tente novamente.\n", opcao);
-                    break; // Sai do switch e repete o loop while
+                    break; 
                 }
 
-                pergunta_respondida = true; // O usuário deu uma resposta válida
+                pergunta_respondida = true; 
                 if (opcao == pselecionada.alt_correta)
                 {
-                    // Resposta CORRETA
                     premio_total = premios[pergunta_atual - 1];
                     printf("\n========================================\n");
                     printf("RESPOSTA CORRETA!\n");
@@ -165,7 +162,7 @@ int main()
                 {
                     // Resposta ERRADA
                     printf("\n========================================\n");
-                    printf("QUE PENA! RESPOSTA ERRADA!\n");
+                    printf("RESPOSTA ERRADA!\n");
                     printf("A resposta correta era: %c\n", pselecionada.alt_correta);
                     printf("Voce perdeu tudo.\n");
                     printf("========================================\n\n");
@@ -184,7 +181,7 @@ int main()
     printf("fim de jogo\n");
     if (pergunta_atual > 16)
     {
-        printf("PARABENS! Voce acertou a pergunta final e ganhou R$ %.2f!\n", premio_total);
+        printf("Vc acertou a pergunta final e ganhou R$ %.2f!\n", premio_total);
     }
     else
     {
@@ -195,14 +192,13 @@ int main()
          
 }
 
-// Atualizada para receber 'bool visiveis[]'
 void exibir_interface(struct pergunta p, int num_pergunta, float premio_acertar, int pulos, int plateia, int universitarios, int cartas, bool visiveis[])
 {
     printf("\n == Pergunta %d valendo R$ %.2f ==\n", num_pergunta, premio_acertar);
     printf("%s\n", p.descricao);
     printf("\n");
     
-    // Exibe apenas as alternativas visíveis
+
     if (visiveis[0]) printf("a) %s\n", p.alt[0]); else printf("a) [Alternativa Excluida]\n");
     if (visiveis[1]) printf("b) %s\n", p.alt[1]); else printf("b) [Alternativa Excluida]\n");
     if (visiveis[2]) printf("c) %s\n", p.alt[2]); else printf("c) [Alternativa Excluida]\n");
@@ -238,48 +234,46 @@ void executar_plateia(int *plateia_restantes, char alt_correta){
     } 
     (*plateia_restantes)--; 
 
-    // 3. Prepara a lógica de probabilidade usando if-else 
     int votos_a = 0, votos_b = 0, votos_c = 0, votos_d = 0;
     int prob_a, prob_b, prob_c, prob_d;
 
-    // Define a probabilidade de 'a'
     if (alt_correta == 'a') {
         prob_a = 40;
     } else {
         prob_a = 20;
     }
 
-    // Define a probabilidade de 'b'
+
     if (alt_correta == 'b') {
         prob_b = 40;
     } else {
         prob_b = 20;
     }
 
-    // Define a probabilidade de 'c'
+
     if (alt_correta == 'c') {
         prob_c = 40;
     } else {
         prob_c = 20;
     }
 
-    // Define a probabilidade de 'd'
+
     if (alt_correta == 'd') {
         prob_d = 40;
     } else {
         prob_d = 20;
     }
     
-    // Cria probabilidades acumuladas para o rand()
+
     int acumul_a = prob_a;
     int acumul_b = acumul_a + prob_b;
     int acumul_c = acumul_b + prob_c;
     // cumul_d é 100
 
-    // 4. Gera os 30 votos
+    // gera os 30 votos
     for (int i = 0; i < 30; i++)
     {
-        int r = rand() % 100; // Gera um número de 0 a 99
+        int r = rand() % 100; // gera um número de 0 a 99
 
         if (r < acumul_a) {
             votos_a++;
@@ -292,7 +286,6 @@ void executar_plateia(int *plateia_restantes, char alt_correta){
         }
     }
 
-    // 5. Exibe os resultados
     
     printf("AJUDA: A plateia votou! (Restam: %d)\n", *plateia_restantes);
     printf("Alternativa A: %d votos\n", votos_a);
@@ -310,16 +303,11 @@ void executar_universitarios(int *univ_restantes, char alt_correta){
     (*univ_restantes)--;
     int prob_a, prob_b, prob_c, prob_d;
     
-    // A lógica de probabilidade dos universitários no código original estava incorreta (somava 70+10+10+10 = 100, mas só se a correta fosse 'a').
-    // Corrigindo para que a correta tenha 70% e as incorretas 10% cada, totalizando 100%.
-    
-    // Inicializa todas com 10%
     prob_a = 10;
     prob_b = 10;
     prob_c = 10;
     prob_d = 10;
 
-    // Aumenta a probabilidade da correta para 70%
     if(alt_correta == 'a'){
         prob_a = 70;
     } else if(alt_correta == 'b'){
@@ -354,7 +342,6 @@ void executar_universitarios(int *univ_restantes, char alt_correta){
     }
 }
 
-// Implementação da função Cartas (Lógica Simplificada: Exclui 2 incorretas)
 void executar_cartas(int *cartas_restantes, char alt_correta, bool visiveis[]){
     if (*cartas_restantes <= 0){
         printf("AJUDA: voce nao tem mais ajudas das cartas\n");
@@ -362,23 +349,19 @@ void executar_cartas(int *cartas_restantes, char alt_correta, bool visiveis[]){
     }
     (*cartas_restantes)--;
     
-    // Mapeamento de char para índice do array
     int indice_correto = alt_correta - 'a';
     
-    // 1. Encontra as alternativas incorretas que ainda estão visíveis
     int incorretas_visiveis[3];
     int count_incorretas = 0;
     for (int i = 0; i < 4; i++) {
-        // Verifica se é incorreta E se ainda está visível
+        
         if (i != indice_correto && visiveis[i]) {
             incorretas_visiveis[count_incorretas++] = i;
         }
     }
-    
-    // Lógica Simplificada: Sempre tenta excluir 2 alternativas incorretas
+
     int num_exclusoes = 2;
     
-    // Garante que não tentamos excluir mais do que o número de incorretas visíveis
     if (num_exclusoes > count_incorretas) {
         num_exclusoes = count_incorretas;
     }
@@ -390,7 +373,6 @@ void executar_cartas(int *cartas_restantes, char alt_correta, bool visiveis[]){
     } else {
         printf("Duas alternativas incorretas foram excluidas:\n");
         
-        // Embaralha as incorretas visíveis para escolher aleatoriamente
         for (int i = 0; i < count_incorretas; i++) {
             int j = rand() % count_incorretas;
             int temp = incorretas_visiveis[i];
@@ -398,7 +380,7 @@ void executar_cartas(int *cartas_restantes, char alt_correta, bool visiveis[]){
             incorretas_visiveis[j] = temp;
         }
         
-        // Exclui as primeiras 'num_exclusoes' do array embaralhado
+
         for (int i = 0; i < num_exclusoes; i++) {
             int indice_a_excluir = incorretas_visiveis[i];
             visiveis[indice_a_excluir] = false;
