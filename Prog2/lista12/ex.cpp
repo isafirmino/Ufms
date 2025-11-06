@@ -2,6 +2,7 @@
 #define TAMANHO_FILA 30
 
 void enfileire(int f[], int s, int *t, int x);
+void desenfileire(int f[], int *s, int t);
 
 int main(){
     int f[TAMANHO_FILA], s, t = 0;
@@ -12,6 +13,11 @@ int main(){
     enfileire(f, s, &t, 11);
     enfileire(f, s, &t, 2);
     for (int i=s; i < t; i++){
+        printf("%d  ", f[i]);
+    }
+    desenfileire(f, &s, t);
+    desenfileire(f, &s, t);
+    for (int i=0; i < t; i++){
         printf("%d  ", f[i]);
     }
 
@@ -25,4 +31,14 @@ void enfileire(int f[], int s, int *t, int x){
     }
     f[*t] = x;
     *t += 1;
+}
+
+void desenfileire(int f[], int *s, int t){
+    if (*s == t){
+        printf("Queue underflow");
+        return;
+    }
+
+    t = f[*s];
+    *s += 1;
 }
